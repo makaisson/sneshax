@@ -6,7 +6,7 @@ Collection of small SMW hax, a result of me just learning how it all works.
 I use OSX, so the following instructions are for that.
 
 0. Have an emulator and a clean SMW ROM that you can play.
-1. Download [Maxaks](http://www.smwcentral.net/?p=section&a=details&id=4631). This contains a GUI for patching ROMs and some command line utilities. I use the latter.
+1. Download [Maxkas](http://www.smwcentral.net/?p=section&a=details&id=4631). This contains a GUI for patching ROMs and some command line utilities. I use the latter.
 2. Make a copy of the ROM to patch and patch it
 
         cp smw.sfc smw-hacked.sfc
