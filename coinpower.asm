@@ -1,14 +1,11 @@
-; Apply a random power up (or back to small mario) every time you get a coin.
+; Apply a random power up (or back to small mario) every time you get a coin,
+; instead of getting that coin.
+
+incsrc "constants.asm"
 
 !CoinsPerLife = $01
 
-!PowerupFlower = $03
-
-!RAM_CurrentCoins = $0DBF
-!RAM_CurrentPowerup = $19
-!RAM_CurrentFrame = $13
-
-; Change CMP 100 for coins 1UP to CMP1, so you get a life every !CoinsPerLife
+; Change CMP 100 for coins so bonus is triggered every !CoinsPerLife
 org $008F2C
 db !CoinsPerLife
 
