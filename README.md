@@ -25,5 +25,6 @@ Useful links
 * [Basic Tutorial](http://www.smwcentral.net/?p=viewthread&t=47188&page=1#p761832)
 * [ROM map](http://www.smwcentral.net/?p=map&type=rom)
 * [RAM map](http://www.smwcentral.net/?p=map&type=ram)
-* [Annotated * Disassembly](http://www.smwcentral.net/?p=section&a=details&id=4727).
+* [Annotated Disassembly](http://www.smwcentral.net/?p=section&a=details&id=4727).
   _This is often more useful than ROM map._
+* [65861 Assembler Reference](http://wiki.superfamicom.org/snes/show/65816+Reference)
