@@ -49,7 +49,9 @@ files.
 
 ### Creating IPS files
 
-I don't know how to do this yet :(
+Use `bin/create-ips`, which I wrote because I couldn't get any other OSX
+utility to work. It's pretty dirty. `bin/apply-patch` is also included, though
+I didn't write that.
 
 Useful links
 ------------

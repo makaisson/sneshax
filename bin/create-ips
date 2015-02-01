@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+# Quick and dirty IPS generator.
+
+require 'shellwords'
+
+original = ARGV.shift
+modified = ARGV.shift
+
+diff = `cmp -l #{Shellwords.escape(original)} #{Shellwords.escape(modified)}`
+exit 1 unless $?.success?
+
+output = "PATCH"
+
+diff.each_line do |line|
+  offset, _, new_value = *line.split(" ")
+  # cmp outputs offset in decimal and values in octal. Ok...
+  offset    = offset.to_i - 1
+  new_value = new_value.to_i(8)
+
+  output << \
+    [offset].pack("N")[1..-1] + # faux 3-byte unsigned int packing, by doing a
+                                # 4-byte and lopping off the start
+    [1].pack("n") +             # 2-byte unsigned int
+    [new_value].pack("C")       # 1-byte char
+end
+
+output << "EOF"
+
+print output
