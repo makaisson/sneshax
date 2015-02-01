@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 # Quick and dirty IPS generator.
+# Based on http://www.smwiki.net/wiki/IPS_file_format
 
 require 'shellwords'
 
@@ -12,6 +13,8 @@ exit 1 unless $?.success?
 
 output = "PATCH"
 
+# You could hella optimize this by lumping sequential bytes together and not
+# writing out a single row for every one.
 diff.each_line do |line|
   offset, _, new_value = *line.split(" ")
   # cmp outputs offset in decimal and values in octal. Ok...
