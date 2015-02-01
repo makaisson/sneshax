@@ -16,22 +16,52 @@ if $?.success?
   exit 1
 end
 
+$verbose = false
+
 output = "PATCH"
 
-# You could hella optimize this by lumping sequential bytes together and not
-# writing out a single row for every one.
+def flush(output, first_offset, bytes)
+  return if bytes.empty?
+
+  $stderr.puts "flushing #{bytes.length} bytes at #{first_offset}: #{bytes.inspect}" if $verbose
+
+  record = ""
+
+  # faux 3-byte unsigned int packing, by doing a 4-byte and lopping off the
+  # start. Should error check this.
+  record << [first_offset].pack("N")[1..-1]
+
+  record << [bytes.length].pack("n") # 2-byte unsigned int
+  record << bytes.pack("C*")          # 1-byte chars
+
+  output << record
+end
+
+first_offset = nil
+last_offset  = -2
+bytes        = []
+
 diff.each_line do |line|
   offset, _, new_value = *line.split(" ")
   # cmp outputs offset in decimal and values in octal. Ok...
   offset    = offset.to_i - 1
   new_value = new_value.to_i(8)
 
-  output << \
-    [offset].pack("N")[1..-1] + # faux 3-byte unsigned int packing, by doing a
-                                # 4-byte and lopping off the start
-    [1].pack("n") +             # 2-byte unsigned int
-    [new_value].pack("C")       # 1-byte char
+  if offset == last_offset + 1
+    # Accumulate sequential bytes, since they can be represented with a single
+    # IPS record.
+    bytes << new_value
+  else
+    flush(output, first_offset, bytes)
+
+    first_offset = offset
+    bytes        = [new_value]
+  end
+
+  last_offset = offset
 end
+
+flush(output, first_offset, bytes)
 
 output << "EOF"
 
