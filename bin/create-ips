@@ -8,8 +8,13 @@ require 'shellwords'
 original = ARGV.shift
 modified = ARGV.shift
 
-diff = `cmp -l #{Shellwords.escape(original)} #{Shellwords.escape(modified)}`
-exit 1 unless $?.success?
+cmd = "cmp -l #{Shellwords.escape(original)} #{Shellwords.escape(modified)}"
+diff = `#{cmd}`
+
+if $?.success?
+  $stderr.puts "files are idential: #{cmd}"
+  exit 1
+end
 
 output = "PATCH"
 
